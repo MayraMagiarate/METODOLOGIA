@@ -6,6 +6,7 @@
 package TATETI;
 
 import java.awt.Color;
+import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -14,199 +15,402 @@ import javax.swing.JOptionPane;
  * @author MAYFER
  */
 public class FRAMETATETI extends javax.swing.JFrame {
-private String ComienzoDelJuego="X";
-private int xConteo=0;
-private int oConteo=0;
+
+    private String ComienzoDelJuego = "X";
+    private int xConteo = 0;
+    private int oConteo = 0;
+    private String[][] Tablero;
+    private boolean EstamosJugando;
+    private boolean JuegaContraLaComputadora;
 
     /**
      * Creates new form FRAMETATETI
      */
     public FRAMETATETI() {
         initComponents();
-        setSize(650,600);   // Esto es darle una dimensión fija al frame.
+        setSize(650, 600);   // Esto es darle una dimensión fija al frame.
         setLocationRelativeTo(null);    // Esto hace que el frame se centre,
+        Tablero = new String[3][3];
+        VaciarTablero();
+        EstamosJugando = true;
+        String[] opciones = {"Humano", "Computadora"};
+        int OpcionElegida = JOptionPane.showOptionDialog(null, "Desea jugar contra un humano o una computadora?", "Pregunta Muy Importante", 0, JOptionPane.QUESTION_MESSAGE, null, opciones, null);
+        if (OpcionElegida == 1) {
+            JuegaContraLaComputadora = true;
+        } else {
+            JuegaContraLaComputadora = false;
+        }
     }
-private void puntajesDelJuego(){ // Este es el Metodo que creamos para recolectar y calcular los puntajes de cada jugador.
 
-    puntosPlayerX.setText(String.valueOf(xConteo));
-    puntosPlayerO.setText(String.valueOf(oConteo));
-}
-private void ElegiTuJugador(){// Este Método es para elegir el jugador, por X o por O.
+    private void puntajesDelJuego() { // Este es el Metodo que creamos para recolectar y calcular los puntajes de cada jugador.
+
+        puntosPlayerX.setText(String.valueOf(xConteo));
+        puntosPlayerO.setText(String.valueOf(oConteo));
+    }
+
+    private void ElegiTuJugador() {// Este Método es para elegir el jugador, por X o por O.
+
+        if (ComienzoDelJuego.equalsIgnoreCase("X")) {
+            ComienzoDelJuego = "O";
+        }// fin del if
+        else {
+            ComienzoDelJuego = "X";
+        }
+
+    } // Fin del Metodo ElegíTuJugador.
     
-if (ComienzoDelJuego.equalsIgnoreCase("X")) {
-        ComienzoDelJuego="O";
-    }// fin del if
-else{
-        ComienzoDelJuego="X";
-}
-
-} // Fin del Metodo ElegíTuJugador.
-
-private void JugadaGanadora(){ // Este Metodo analiza la jugada segun X o O elegido, que resulta ganadora.
-String b1 = jButton1.getText();
-String b2 = jButton2.getText();  // Juegada Ganadora de Primera linea o fila
-String b3 = jButton3.getText();
-
-String b6 = jButton6.getText();
-String b7 = jButton7.getText(); // Jugada Ganadora de Segunda linea o fila
-String b8 = jButton8.getText();
-
-String b11 = jButton11.getText();
-String b12 = jButton12.getText(); // Juagada Ganadora de Tercera linea o fila
-String b13 = jButton13.getText();
-
-    if (b1=="X" && b2=="X" && b3=="X"   ) {
-        JOptionPane.showMessageDialog(this, "El Jugador que elegio la X la tiene Clara. ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
-        xConteo++;
-        puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
-        jButton1.setBackground(Color.YELLOW);
-        jButton2.setBackground(Color.YELLOW);
-        jButton3.setBackground(Color.YELLOW);
-    } // Fin if de la primera jugada Linea 1.
-
-    if (b6=="X "&& b7=="X" && b8=="X") {
-         JOptionPane.showMessageDialog(this, "El Jugador que elegio la X la tiene Clara. ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
-        xConteo++;
-        puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
-        jButton6.setBackground(Color.MAGENTA);
-        jButton7.setBackground(Color.MAGENTA);
-        jButton8.setBackground(Color.MAGENTA);
-        
-    } // Fin If de la segunda jugada Linea 2.
-    
-    if (b11=="X" && b12=="X" && b13=="X") {
-         JOptionPane.showMessageDialog(this, "El Jugador que elegio la X  le ha GANADO!! ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
-        xConteo++;
-        puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
-        jButton11.setBackground(Color.WHITE);
-        jButton12.setBackground(Color.WHITE);
-        jButton13.setBackground(Color.WHITE);
-        
-    } // Fin If de la tercera jugada Linea 3.
-    if (b1=="X" && b6=="X" && b11=="X") {
-         JOptionPane.showMessageDialog(this, "El Jugador que elegio la X la tiene Clara. ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
-        xConteo++;
-        puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
-        jButton1.setBackground(Color.ORANGE);
-        jButton6.setBackground(Color.ORANGE);
-        jButton11.setBackground(Color.ORANGE);
-        
-    } // Fin if de la 4 jugada Columna1.
-    if (b2=="X" && b7=="X" && b12=="X") {
-         JOptionPane.showMessageDialog(this, "El Jugador que elegio la X la tiene Clara. ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
-        xConteo++;
-        puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
-        jButton2.setBackground(Color.RED);
-        jButton7.setBackground(Color.RED);
-        jButton12.setBackground(Color.RED);
-        
-    } // Fin if 5 jugada Columna 2.
-    if (b3=="X" && b8=="X" && b13=="X") {
-         JOptionPane.showMessageDialog(this, "El Jugador que elegio la X la tiene Clara. ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
-        xConteo++;
-        puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
-        jButton3.setBackground(Color.GREEN);
-        jButton8.setBackground(Color.GREEN);
-        jButton13.setBackground(Color.GREEN);
-        
-    }// Fin if 6 jugada columna 3.
-    if (b1=="X" && b7=="X" && b13=="X") {
-         JOptionPane.showMessageDialog(this, "El Jugador que elegio la X la tiene Clara. ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
-        xConteo++;
-        puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
-        jButton1.setBackground(Color.CYAN);
-        jButton7.setBackground(Color.CYAN);
-        jButton13.setBackground(Color.CYAN);
-        
-    }// fin if  Jugada de  Diagonal 1.
-    if (b11=="X" && b7=="X" && b3=="X") {
-         JOptionPane.showMessageDialog(this, "El Jugador que elegio la X la tiene Clara. ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
-        xConteo++;
-        puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
-        jButton11.setBackground(Color.BLUE);
-        jButton7.setBackground(Color.BLUE);
-        jButton3.setBackground(Color.BLUE);
-        
-    }// FIN DE LOS IF PARA EL JUGADOR X
-      if (b1=="O" && b2=="O" && b3=="O"   ) {
-        JOptionPane.showMessageDialog(this, "El Jugador que elegio la O la tiene Clara. ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
-        oConteo++;
-        puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
-        jButton1.setBackground(Color.YELLOW);
-        jButton2.setBackground(Color.YELLOW);
-        jButton3.setBackground(Color.YELLOW);
-    } // Fin if de la primera jugada Linea 1.
-
-    if (b6=="O "&& b7=="O" && b8=="O") {
-         JOptionPane.showMessageDialog(this, "El Jugador que elegio la O la tiene Clara. ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
-        oConteo++;
-        puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
-        jButton6.setBackground(Color.MAGENTA);
-        jButton7.setBackground(Color.MAGENTA);
-        jButton8.setBackground(Color.MAGENTA);
-        
-    } // Fin If de la segunda jugada Linea 2.
-    
-    if (b11=="O" && b12=="O" && b13=="O") {
-         JOptionPane.showMessageDialog(this, "El Jugador que elegio la O  le ha GANADO!! ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
-        oConteo++;
-        puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
-        jButton11.setBackground(Color.WHITE);
-        jButton12.setBackground(Color.WHITE);
-        jButton13.setBackground(Color.WHITE);
-        
-    } // Fin If de la tercera jugada Linea 3.
-    if (b1=="O" && b6=="O" && b11=="O") {
-         JOptionPane.showMessageDialog(this, "El Jugador que elegio la O la tiene Clara. ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
-        oConteo++;
-        puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
-        jButton1.setBackground(Color.ORANGE);
-        jButton6.setBackground(Color.ORANGE);
-        jButton11.setBackground(Color.ORANGE);
-        
-    } // Fin if de la 4 jugada Columna1.
-    if (b2=="O" && b7=="O" && b12=="O") {
-         JOptionPane.showMessageDialog(this, "El Jugador que elegio la O la tiene Clara. ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
-        oConteo++;
-        puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
-        jButton2.setBackground(Color.RED);
-        jButton7.setBackground(Color.RED);
-        jButton12.setBackground(Color.RED);
-        
-    } // Fin if 5 jugada Columna 2.
-    if (b3=="O" && b8=="O" && b13=="O") {
-         JOptionPane.showMessageDialog(this, "El Jugador que elegio la O la tiene Clara. ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
-        oConteo++;
-        puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
-        jButton3.setBackground(Color.GREEN);
-        jButton8.setBackground(Color.GREEN);
-        jButton13.setBackground(Color.GREEN);
-        
-    }// Fin if 6 jugada columna 3.
-    if (b1=="O" && b7=="O" && b13=="O") {
-         JOptionPane.showMessageDialog(this, "El Jugador que elegio la O la tiene Clara. ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
-        oConteo++;
-        puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
-        jButton1.setBackground(Color.CYAN);
-        jButton7.setBackground(Color.CYAN);
-        jButton13.setBackground(Color.CYAN);
-        
-    }// fin if  Jugada de  Diagonal 1.
-    if (b11=="O" && b7=="O" && b3=="O") {
-         JOptionPane.showMessageDialog(this, "El Jugador que elegio la O la tiene Clara. ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
-        oConteo++;
-        puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
-        jButton11.setBackground(Color.BLUE);
-        jButton7.setBackground(Color.BLUE);
-        jButton3.setBackground(Color.BLUE);
+    // Metodo que determina si es posible hacer una jugada en determinada
+    // fila y columna del tablero
+    private boolean RealizarJugada(int Fila, int Columna, String Jugador)
+    {
+        boolean SeRealizoLaJugada = false;
+        if (EstamosJugando == true){
+            if (Tablero[Fila][Columna] == "") {
+                Tablero[Fila][Columna] = Jugador;
+                SeRealizoLaJugada = true;
+            } else {
+                SeRealizoLaJugada = false;
+            }
+        } else {
+            SeRealizoLaJugada = false;
+        }
+        return SeRealizoLaJugada;
     }
     
     
+    private void DibujarBotones() {
+        ColorearBoton(jButton1, Tablero[0][0]);
+        ColorearBoton(jButton2, Tablero[0][1]);
+        ColorearBoton(jButton3, Tablero[0][2]);
+        
+        ColorearBoton(jButton6, Tablero[1][0]);
+        ColorearBoton(jButton7, Tablero[1][1]);
+        ColorearBoton(jButton8, Tablero[1][2]);
+        
+        ColorearBoton(jButton11, Tablero[2][0]);
+        ColorearBoton(jButton12, Tablero[2][1]);
+        ColorearBoton(jButton13, Tablero[2][2]);
+    }
+    
+    private void ColorearBoton(javax.swing.JButton Boton, String Jugador) {
+        Boton.setText(Jugador);
+        if (Jugador == "X") {
+            Boton.setForeground(Color.ORANGE);
+        } else {
+            Boton.setForeground(Color.BLUE);
+        }
+    }
+    
+    private void VaciarTablero() {
+        for (int Fila = 0; Fila < 3; Fila++) {
+            for (int Columna = 0; Columna < 3; Columna++) {
+                Tablero[Fila][Columna] = "";
+            }
+        }
+    }
+    
+    private void JugarComputadora() {
+        if (EstamosJugando == true){
+            boolean YaJugue = false;
+            for (int f = 0; f < 3; f++) {
+                int JugadasHumano = ContarJugadasEnFila(f,"X");
+                int JugadasComputadora = ContarJugadasEnFila(f,"O");
+                if (JugadasHumano == 2 && JugadasComputadora == 0){
+                    for (int c = 0; c < 3; c++) {
+                        if (Tablero[f][c] == ""){
+                            YaJugue = RealizarJugada(f, c, "O");
+                        }
+                    }
+                    break;
+                }
+            }
+            if (YaJugue == false){
+                for (int c = 0; c < 3; c++) {
+                    int JugadasHumano = ContarJugadasEnColumna(c,"X");
+                    int JugadasComputadora = ContarJugadasEnColumna(c,"O");
+                    if (JugadasHumano == 2 && JugadasComputadora == 0){
+                        for (int f = 0; f < 3; f++) {
+                            if (Tablero[f][c] == ""){
+                                YaJugue = RealizarJugada(f, c, "O");
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+            if (YaJugue == false){
+                int JugadasHumano = ContarJugadasEnDiagonalPrincipal("X");
+                int JugadasComputadora = ContarJugadasEnDiagonalPrincipal("O");
+                if (JugadasHumano == 2 && JugadasComputadora == 0){
+                    for (int x = 0; x < 3; x++) {
+                        int f = x;
+                        int c = x;
+                        if (Tablero[f][c] == ""){
+                            YaJugue = RealizarJugada(f, c, "O");
+                        }
+                    }
+                }
+            }
+            if (YaJugue == false){
+                int JugadasHumano = ContarJugadasEnDiagonalContraria("X");
+                int JugadasComputadora = ContarJugadasEnDiagonalContraria("O");
+                if (JugadasHumano == 2 && JugadasComputadora == 0){
+                    for (int x = 0; x < 3; x++) {
+                        int f = 2 - x;
+                        int c = x;
+                        if (Tablero[f][c] == ""){
+                            YaJugue = RealizarJugada(f, c, "O");
+                        }
+                    }
+                }
+            }
+            if (YaJugue == false){
+                while (YaJugue == false){
+                    int f = ObtenerAleatorioEntre(0,2);
+                    int c = ObtenerAleatorioEntre(0, 2);
+                    YaJugue = RealizarJugada(f, c, "O");
+                }
+            }
+        }
+    }
+    
+    private int ObtenerAleatorioEntre(int limiteInferior, int limiteSuperior){
+        Random r = new Random();
+        int Resultado = r.nextInt((limiteSuperior+1) - limiteInferior) + limiteInferior;
+        return Resultado;
+    }
+    
+    private int ContarJugadasEnFila(int Fila, String Jugador) {
+        int Jugadas = 0;
+        for (int i = 0; i < 3; i++) {
+            if (Tablero[Fila][i] == Jugador){
+                Jugadas++;
+            }
+        }
+        return Jugadas;
+    }
+    
+    private int ContarJugadasEnColumna(int Columna, String Jugador) {
+        int Jugadas = 0;
+        for (int i = 0; i < 3; i++) {
+            if (Tablero[i][Columna] == Jugador){
+                Jugadas++;
+            }
+        }
+        return Jugadas;
+    }
+    
+    private int ContarJugadasEnDiagonalPrincipal(String Jugador){
+        int Jugadas = 0;
+        for (int i = 0; i < 3; i++) {
+            if (Tablero[i][i] == Jugador){
+                Jugadas++;
+            }
+        }
+        return Jugadas;
+    }
+    
+    private int ContarJugadasEnDiagonalContraria(String Jugador){
+        int Jugadas = 0;
+        for (int i = 0; i < 3; i++) {
+            if (Tablero[2 - i][i] == Jugador){
+                Jugadas++;
+            }
+        }
+        return Jugadas;
+    }
+
+    private void JugadaGanadora() { // Este Metodo analiza la jugada segun X o O elegido, que resulta ganadora.
+        String b1 = jButton1.getText();
+        String b2 = jButton2.getText();  // Jugada Ganadora de Primera linea o fila
+        String b3 = jButton3.getText();
+
+        String b6 = jButton6.getText();
+        String b7 = jButton7.getText(); // Jugada Ganadora de Segunda linea o fila
+        String b8 = jButton8.getText();
+
+        String b11 = jButton11.getText();
+        String b12 = jButton12.getText(); // Jugada Ganadora de Tercera linea o fila
+        String b13 = jButton13.getText();
+
+        if (b1 == "X" && b2 == "X" && b3 == "X") {
+            JOptionPane.showMessageDialog(this, "El Jugador que elegio la X la tiene Clara. ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
+            xConteo++;
+            puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
+            jButton1.setBackground(Color.YELLOW);
+            jButton2.setBackground(Color.YELLOW);
+            jButton3.setBackground(Color.YELLOW);
+            EstamosJugando = false;
+        } // Fin if de la primera jugada Linea 1.
+
+        if (b6 == "X " && b7 == "X" && b8 == "X") {
+            JOptionPane.showMessageDialog(this, "El Jugador que elegio la X la tiene Clara. ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
+            xConteo++;
+            puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
+            jButton6.setBackground(Color.MAGENTA);
+            jButton7.setBackground(Color.MAGENTA);
+            jButton8.setBackground(Color.MAGENTA);
+            EstamosJugando = false;
+        } // Fin If de la segunda jugada Linea 2.
+
+        if (b11 == "X" && b12 == "X" && b13 == "X") {
+            JOptionPane.showMessageDialog(this, "El Jugador que elegio la X  le ha GANADO!! ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
+            xConteo++;
+            puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
+            jButton11.setBackground(Color.WHITE);
+            jButton12.setBackground(Color.WHITE);
+            jButton13.setBackground(Color.WHITE);
+            EstamosJugando = false;
+
+        } // Fin If de la tercera jugada Linea 3.
+        if (b1 == "X" && b6 == "X" && b11 == "X") {
+            JOptionPane.showMessageDialog(this, "El Jugador que elegio la X la tiene Clara. ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
+            xConteo++;
+            puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
+            jButton1.setBackground(Color.ORANGE);
+            jButton6.setBackground(Color.ORANGE);
+            jButton11.setBackground(Color.ORANGE);
+            EstamosJugando = false;
+
+        } // Fin if de la 4 jugada Columna1.
+        if (b2 == "X" && b7 == "X" && b12 == "X") {
+            JOptionPane.showMessageDialog(this, "El Jugador que elegio la X la tiene Clara. ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
+            xConteo++;
+            puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
+            jButton2.setBackground(Color.RED);
+            jButton7.setBackground(Color.RED);
+            jButton12.setBackground(Color.RED);
+            EstamosJugando = false;
+
+        } // Fin if 5 jugada Columna 2.
+        if (b3 == "X" && b8 == "X" && b13 == "X") {
+            JOptionPane.showMessageDialog(this, "El Jugador que elegio la X la tiene Clara. ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
+            xConteo++;
+            puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
+            jButton3.setBackground(Color.GREEN);
+            jButton8.setBackground(Color.GREEN);
+            jButton13.setBackground(Color.GREEN);
+            EstamosJugando = false;
+
+        }// Fin if 6 jugada columna 3.
+        if (b1 == "X" && b7 == "X" && b13 == "X") {
+            JOptionPane.showMessageDialog(this, "El Jugador que elegio la X la tiene Clara. ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
+            xConteo++;
+            puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
+            jButton1.setBackground(Color.CYAN);
+            jButton7.setBackground(Color.CYAN);
+            jButton13.setBackground(Color.CYAN);
+            EstamosJugando = false;
+
+        }// fin if  Jugada de  Diagonal 1.
+        if (b11 == "X" && b7 == "X" && b3 == "X") {
+            JOptionPane.showMessageDialog(this, "El Jugador que elegio la X la tiene Clara. ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
+            xConteo++;
+            puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
+            jButton11.setBackground(Color.BLUE);
+            jButton7.setBackground(Color.BLUE);
+            jButton3.setBackground(Color.BLUE);
+            EstamosJugando = false;
+
+        }// FIN DE LOS IF PARA EL JUGADOR X
+        if (b1 == "O" && b2 == "O" && b3 == "O") {
+            JOptionPane.showMessageDialog(this, "El Jugador que elegio la O la tiene Clara. ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
+            oConteo++;
+            puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
+            jButton1.setBackground(Color.YELLOW);
+            jButton2.setBackground(Color.YELLOW);
+            jButton3.setBackground(Color.YELLOW);
+            EstamosJugando = false;
+        } // Fin if de la primera jugada Linea 1.
+
+        if (b6 == "O " && b7 == "O" && b8 == "O") {
+            JOptionPane.showMessageDialog(this, "El Jugador que elegio la O la tiene Clara. ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
+            oConteo++;
+            puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
+            jButton6.setBackground(Color.MAGENTA);
+            jButton7.setBackground(Color.MAGENTA);
+            jButton8.setBackground(Color.MAGENTA);
+            EstamosJugando = false;
+
+        } // Fin If de la segunda jugada Linea 2.
+
+        if (b11 == "O" && b12 == "O" && b13 == "O") {
+            JOptionPane.showMessageDialog(this, "El Jugador que elegio la O  le ha GANADO!! ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
+            oConteo++;
+            puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
+            jButton11.setBackground(Color.WHITE);
+            jButton12.setBackground(Color.WHITE);
+            jButton13.setBackground(Color.WHITE);
+            EstamosJugando = false;
+
+        } // Fin If de la tercera jugada Linea 3.
+        if (b1 == "O" && b6 == "O" && b11 == "O") {
+            JOptionPane.showMessageDialog(this, "El Jugador que elegio la O la tiene Clara. ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
+            oConteo++;
+            puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
+            jButton1.setBackground(Color.ORANGE);
+            jButton6.setBackground(Color.ORANGE);
+            jButton11.setBackground(Color.ORANGE);
+            EstamosJugando = false;
+
+        } // Fin if de la 4 jugada Columna1.
+        if (b2 == "O" && b7 == "O" && b12 == "O") {
+            JOptionPane.showMessageDialog(this, "El Jugador que elegio la O la tiene Clara. ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
+            oConteo++;
+            puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
+            jButton2.setBackground(Color.RED);
+            jButton7.setBackground(Color.RED);
+            jButton12.setBackground(Color.RED);
+            EstamosJugando = false;
+
+        } // Fin if 5 jugada Columna 2.
+        if (b3 == "O" && b8 == "O" && b13 == "O") {
+            JOptionPane.showMessageDialog(this, "El Jugador que elegio la O la tiene Clara. ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
+            oConteo++;
+            puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
+            jButton3.setBackground(Color.GREEN);
+            jButton8.setBackground(Color.GREEN);
+            jButton13.setBackground(Color.GREEN);
+            EstamosJugando = false;
+
+        }// Fin if 6 jugada columna 3.
+        if (b1 == "O" && b7 == "O" && b13 == "O") {
+            JOptionPane.showMessageDialog(this, "El Jugador que elegio la O la tiene Clara. ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
+            oConteo++;
+            puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
+            jButton1.setBackground(Color.CYAN);
+            jButton7.setBackground(Color.CYAN);
+            jButton13.setBackground(Color.CYAN);
+            EstamosJugando = false;
+
+        }// fin if  Jugada de  Diagonal 1.
+        if (b11 == "O" && b7 == "O" && b3 == "O") {
+            JOptionPane.showMessageDialog(this, "El Jugador que elegio la O la tiene Clara. ", "My Tateti", JOptionPane.INFORMATION_MESSAGE);
+            oConteo++;
+            puntajesDelJuego(); // LLamo al metodo puntajesDelJuego para darle valor a xConteo.
+            jButton11.setBackground(Color.BLUE);
+            jButton7.setBackground(Color.BLUE);
+            jButton3.setBackground(Color.BLUE);
+            EstamosJugando = false;
+        }
+        
+        // ¿Que pasa si se completan todos los casilleros pero no hay ninguna jugada ganadora?
+        int CasillerosOcupados = 0;
+        for (int f = 0; f < 3; f++) {
+            for (int c = 0; c < 3; c++) {
+                if (Tablero[f][c] != ""){
+                    CasillerosOcupados++;
+                }
+            }
+        }
+        if (CasillerosOcupados == 9){
+            EstamosJugando = false;
+        }
+
+    } // Fin del Metodo Jugadas Ganadoras
     
     
-    
-} // Fin del Metodo Jugadas Ganadoras
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -475,170 +679,165 @@ String b13 = jButton13.getText();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     
-        jButton1.setText(ComienzoDelJuego);
-        
-        if (ComienzoDelJuego.equalsIgnoreCase("X")) {
-            
-    jButton1.setForeground(Color.ORANGE);
-        
-    }// fin del if
-else{
-          jButton1.setForeground(Color.BLUE);
-}
-        ElegiTuJugador();
-         JugadaGanadora();
+        boolean SePudoJugar = RealizarJugada(0, 0, ComienzoDelJuego);
+        if (SePudoJugar == true){
+            DibujarBotones();
+            ElegiTuJugador();
+            JugadaGanadora();
+            if (JuegaContraLaComputadora == true && EstamosJugando == true) {
+                JugarComputadora();
+                DibujarBotones();
+                ElegiTuJugador();
+                JugadaGanadora();
+            }
+        }
+
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-         
-        jButton2.setText(ComienzoDelJuego);
-        
-        if (ComienzoDelJuego.equalsIgnoreCase("X")) {
-            
-    jButton2.setForeground(Color.ORANGE);
-        
-    }// fin del if
-else{
-          jButton2.setForeground(Color.BLUE);
-}
-        ElegiTuJugador();    
-        JugadaGanadora(); 
-        
+        boolean SePudoJugar = RealizarJugada(0, 1, ComienzoDelJuego);
+        if (SePudoJugar == true){
+            DibujarBotones();
+            ElegiTuJugador();
+            JugadaGanadora();
+            if (JuegaContraLaComputadora == true && EstamosJugando == true) {
+                JugarComputadora();
+                DibujarBotones();
+                ElegiTuJugador();
+                JugadaGanadora();
+            }
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    
-    
-    private JFrame frame; 
+    private JFrame frame;
     private void ExitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitButtonActionPerformed
-      frame = new JFrame("Me Cansé!");
-        if (JOptionPane.showConfirmDialog(frame," ¿Querés dejar el Juego?"," My Ta Te Ti", JOptionPane.YES_NO_OPTION )
+        frame = new JFrame("Me Cansé!");
+        if (JOptionPane.showConfirmDialog(frame, " ¿Querés dejar el Juego?", " My Ta Te Ti", JOptionPane.YES_NO_OPTION)
                 == JOptionPane.YES_NO_OPTION) {
             System.exit(0); // Finalizamos con la Partida o el Juego.
-            
+
         }
     }//GEN-LAST:event_ExitButtonActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       jButton3.setText(ComienzoDelJuego);
-        
-        if (ComienzoDelJuego.equalsIgnoreCase("X")) {
-            
-    jButton3.setForeground(Color.ORANGE);
-        
-    }// fin del if
-else{
-          jButton3.setForeground(Color.BLUE);
-}
-        ElegiTuJugador();
- JugadaGanadora();
-      
+        boolean SePudoJugar = RealizarJugada(0, 2, ComienzoDelJuego);
+        if (SePudoJugar == true){
+            DibujarBotones();
+            ElegiTuJugador();
+            JugadaGanadora();
+            if (JuegaContraLaComputadora == true && EstamosJugando == true) {
+                JugarComputadora();
+                DibujarBotones();
+                ElegiTuJugador();
+                JugadaGanadora();
+            }
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-       jButton6.setText(ComienzoDelJuego);
-        
-        if (ComienzoDelJuego.equalsIgnoreCase("X")) {
-            
-    jButton6.setForeground(Color.ORANGE);
-        
-    }// fin del if
-else{
-          jButton6.setForeground(Color.BLUE);
-}
-        ElegiTuJugador();
-         JugadaGanadora();
+        boolean SePudoJugar = RealizarJugada(1, 0, ComienzoDelJuego);
+        if (SePudoJugar == true){
+            DibujarBotones();
+            ElegiTuJugador();
+            JugadaGanadora();
+            if (JuegaContraLaComputadora == true && EstamosJugando == true) {
+                JugarComputadora();
+                DibujarBotones();
+                ElegiTuJugador();
+                JugadaGanadora();
+            }
+        }
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        jButton7.setText(ComienzoDelJuego);
-        
-        if (ComienzoDelJuego.equalsIgnoreCase("X")) {
-            
-    jButton7.setForeground(Color.ORANGE);
-        
-    }// fin del if
-else{
-          jButton7.setForeground(Color.BLUE);
-}
-        ElegiTuJugador();
-         JugadaGanadora();
+        boolean SePudoJugar = RealizarJugada(1, 1, ComienzoDelJuego);
+        if (SePudoJugar == true){
+            DibujarBotones();
+            ElegiTuJugador();
+            JugadaGanadora();
+            if (JuegaContraLaComputadora == true && EstamosJugando == true) {
+                JugarComputadora();
+                DibujarBotones();
+                ElegiTuJugador();
+                JugadaGanadora();
+            }
+        }
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-  jButton8.setText(ComienzoDelJuego);
-        
-        if (ComienzoDelJuego.equalsIgnoreCase("X")) {
-            
-    jButton8.setForeground(Color.ORANGE);
-        
-    }// fin del if
-else{
-          jButton8.setForeground(Color.BLUE);
-}
-        ElegiTuJugador();
-         JugadaGanadora();
+        boolean SePudoJugar = RealizarJugada(1, 2, ComienzoDelJuego);
+        if (SePudoJugar == true){
+            DibujarBotones();
+            ElegiTuJugador();
+            JugadaGanadora();
+            if (JuegaContraLaComputadora == true && EstamosJugando == true) {
+                JugarComputadora();
+                DibujarBotones();
+                ElegiTuJugador();
+                JugadaGanadora();
+            }
+        }
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        jButton11.setText(ComienzoDelJuego);
-        
-        if (ComienzoDelJuego.equalsIgnoreCase("X")) {
-            
-    jButton11.setForeground(Color.ORANGE);
-        
-    }// fin del if
-else{
-          jButton11.setForeground(Color.BLUE);
-}
-        ElegiTuJugador();
-         JugadaGanadora();
+        boolean SePudoJugar = RealizarJugada(2, 0, ComienzoDelJuego);
+        if (SePudoJugar == true){
+            DibujarBotones();
+            ElegiTuJugador();
+            JugadaGanadora();
+            if (JuegaContraLaComputadora == true && EstamosJugando == true) {
+                JugarComputadora();
+                DibujarBotones();
+                ElegiTuJugador();
+                JugadaGanadora();
+            }
+        }
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-       jButton12.setText(ComienzoDelJuego);
-        
-        if (ComienzoDelJuego.equalsIgnoreCase("X")) {
-            
-    jButton12.setForeground(Color.ORANGE);
-        
-    }// fin del if
-else{
-          jButton12.setForeground(Color.BLUE);
-}
-        ElegiTuJugador();
-         JugadaGanadora();
+        boolean SePudoJugar = RealizarJugada(2, 1, ComienzoDelJuego);
+        if (SePudoJugar == true){
+            DibujarBotones();
+            ElegiTuJugador();
+            JugadaGanadora();
+            if (JuegaContraLaComputadora == true && EstamosJugando == true) {
+                JugarComputadora();
+                DibujarBotones();
+                ElegiTuJugador();
+                JugadaGanadora();
+            }
+        }
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-       jButton13.setText(ComienzoDelJuego);
-        
-        if (ComienzoDelJuego.equalsIgnoreCase("X")) {
-            
-    jButton13.setForeground(Color.ORANGE);
-        
-    }// fin del if
-else{
-          jButton13.setForeground(Color.BLUE);
-}
-        ElegiTuJugador();
-         JugadaGanadora();
+        boolean SePudoJugar = RealizarJugada(2, 2, ComienzoDelJuego);
+        if (SePudoJugar == true){
+            DibujarBotones();
+            ElegiTuJugador();
+            JugadaGanadora();
+            if (JuegaContraLaComputadora == true && EstamosJugando == true) {
+                JugarComputadora();
+                DibujarBotones();
+                ElegiTuJugador();
+                JugadaGanadora();
+            }
+        }
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void ResetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResetButtonActionPerformed
         jButton1.setText(null);
         jButton2.setText(null); // Esto Hace que todo el contenido de los botones sea iguale a cero otra vez, o vacio.
         jButton3.setText(null);
-        
+
         jButton6.setText(null);
         jButton7.setText(null);
         jButton8.setText(null);
-        
+
         jButton11.setText(null);
         jButton12.setText(null);
         jButton13.setText(null);
-        
+
         jButton1.setBackground(Color.pink);
         jButton2.setBackground(Color.pink);
         jButton3.setBackground(Color.pink);
@@ -648,10 +847,17 @@ else{
         jButton11.setBackground(Color.pink);
         jButton12.setBackground(Color.pink);
         jButton13.setBackground(Color.pink);
-        
-        
-        
-        
+
+        ComienzoDelJuego = "X";
+        EstamosJugando = true;
+        VaciarTablero();
+        String[] opciones = {"Humano", "Computadora"};
+        int OpcionElegida = JOptionPane.showOptionDialog(null, "Desea jugar contra un humano o una computadora?", "Pregunta Muy Importante", 0, JOptionPane.QUESTION_MESSAGE, null, opciones, null);
+        if (OpcionElegida == 1) {
+            JuegaContraLaComputadora = true;
+        } else {
+            JuegaContraLaComputadora = false;
+        }
     }//GEN-LAST:event_ResetButtonActionPerformed
 
     /**
@@ -661,7 +867,7 @@ else{
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
