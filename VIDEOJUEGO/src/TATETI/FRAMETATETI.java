@@ -28,12 +28,12 @@ public class FRAMETATETI extends javax.swing.JFrame {
      */
     public FRAMETATETI() {
         initComponents();
-        setSize(650, 600);   // Esto es darle una dimensión fija al frame.
+        setSize(650, 600);   // Esto es darle una dimensiÃ³n fija al frame.
         setLocationRelativeTo(null);    // Esto hace que el frame se centre,
         Tablero = new String[3][3];
         VaciarTablero();
         EstamosJugando = true;
-        String[] opciones = {"Humano", "Computadora"};
+        String[] opciones = {"Humano", "Computadora"};// La opción Humano devolverá el valor 0 y la opción Computadora devolverá el valor 1.
         int OpcionElegida = JOptionPane.showOptionDialog(null, "Desea jugar contra un humano o una computadora?", "Pregunta Muy Importante", 0, JOptionPane.QUESTION_MESSAGE, null, opciones, null);
         if (OpcionElegida == 1) {
             JuegaContraLaComputadora = true;
@@ -48,7 +48,7 @@ public class FRAMETATETI extends javax.swing.JFrame {
         puntosPlayerO.setText(String.valueOf(oConteo));
     }
 
-    private void ElegiTuJugador() {// Este Método es para elegir el jugador, por X o por O.
+  private void ElegiTuJugador() {// Este MÃ©todo es para elegir el jugador, por X o por O.
 
         if (ComienzoDelJuego.equalsIgnoreCase("X")) {
             ComienzoDelJuego = "O";
@@ -57,7 +57,7 @@ public class FRAMETATETI extends javax.swing.JFrame {
             ComienzoDelJuego = "X";
         }
 
-    } // Fin del Metodo ElegíTuJugador.
+    } // Fin del Metodo ElegÃ­TuJugador.
     
     // Metodo que determina si es posible hacer una jugada en determinada
     // fila y columna del tablero
@@ -92,7 +92,7 @@ public class FRAMETATETI extends javax.swing.JFrame {
         ColorearBoton(jButton13, Tablero[2][2]);
     }
     
-    private void ColorearBoton(javax.swing.JButton Boton, String Jugador) {
+    private void ColorearBoton(javax.swing.JButton Boton, String Jugador) { // Este Método permite cambiar el color de la X o la O.
         Boton.setText(Jugador);
         if (Jugador == "X") {
             Boton.setForeground(Color.ORANGE);
@@ -109,36 +109,36 @@ public class FRAMETATETI extends javax.swing.JFrame {
         }
     }
     
-    private void JugarComputadora() {
+    private void JugarComputadora() {// Aquí comienza el Método o la inteligencia que le dimos a la computadoras.
         if (EstamosJugando == true){
-            boolean YaJugue = false;
+            boolean YaJugoLaComputadora = false;
             for (int f = 0; f < 3; f++) {
-                int JugadasHumano = ContarJugadasEnFila(f,"X");
+                int JugadasHumano = ContarJugadasEnFila(f,"X"); // por defecto siempre la X será para el Humano.
                 int JugadasComputadora = ContarJugadasEnFila(f,"O");
                 if (JugadasHumano == 2 && JugadasComputadora == 0){
                     for (int c = 0; c < 3; c++) {
                         if (Tablero[f][c] == ""){
-                            YaJugue = RealizarJugada(f, c, "O");
+                            YaJugoLaComputadora = RealizarJugada(f, c, "O");
                         }
                     }
                     break;
                 }
-            }
-            if (YaJugue == false){
+            } // Este for solo hace la busqueda por filas. En caso de no encontrar dentro de la fila un espacio vacio habiendo ya dos ocupados lo rellena con una O.
+            if (YaJugoLaComputadora == false){
                 for (int c = 0; c < 3; c++) {
                     int JugadasHumano = ContarJugadasEnColumna(c,"X");
                     int JugadasComputadora = ContarJugadasEnColumna(c,"O");
                     if (JugadasHumano == 2 && JugadasComputadora == 0){
                         for (int f = 0; f < 3; f++) {
                             if (Tablero[f][c] == ""){
-                                YaJugue = RealizarJugada(f, c, "O");
+                                YaJugoLaComputadora = RealizarJugada(f, c, "O");
                             }
                         }
                         break;
                     }
-                }
+                } // Este for revisa la jugada del Humano por Columnas.
             }
-            if (YaJugue == false){
+            if (YaJugoLaComputadora == false){
                 int JugadasHumano = ContarJugadasEnDiagonalPrincipal("X");
                 int JugadasComputadora = ContarJugadasEnDiagonalPrincipal("O");
                 if (JugadasHumano == 2 && JugadasComputadora == 0){
@@ -146,12 +146,12 @@ public class FRAMETATETI extends javax.swing.JFrame {
                         int f = x;
                         int c = x;
                         if (Tablero[f][c] == ""){
-                            YaJugue = RealizarJugada(f, c, "O");
+                            YaJugoLaComputadora = RealizarJugada(f, c, "O");
                         }
                     }
                 }
             }
-            if (YaJugue == false){
+            if (YaJugoLaComputadora == false){
                 int JugadasHumano = ContarJugadasEnDiagonalContraria("X");
                 int JugadasComputadora = ContarJugadasEnDiagonalContraria("O");
                 if (JugadasHumano == 2 && JugadasComputadora == 0){
@@ -159,16 +159,16 @@ public class FRAMETATETI extends javax.swing.JFrame {
                         int f = 2 - x;
                         int c = x;
                         if (Tablero[f][c] == ""){
-                            YaJugue = RealizarJugada(f, c, "O");
+                            YaJugoLaComputadora = RealizarJugada(f, c, "O");
                         }
                     }
                 }
             }
-            if (YaJugue == false){
-                while (YaJugue == false){
+            if (YaJugoLaComputadora == false){ // Aquí la computadora juega al Azar porque no encontró elementos en las diagonales ni en las columnas y filas basandose en las condiciones dadas.
+                while (YaJugoLaComputadora == false){
                     int f = ObtenerAleatorioEntre(0,2);
                     int c = ObtenerAleatorioEntre(0, 2);
-                    YaJugue = RealizarJugada(f, c, "O");
+                    YaJugoLaComputadora = RealizarJugada(f, c, "O");
                 }
             }
         }
@@ -179,8 +179,8 @@ public class FRAMETATETI extends javax.swing.JFrame {
         int Resultado = r.nextInt((limiteSuperior+1) - limiteInferior) + limiteInferior;
         return Resultado;
     }
-    
-    private int ContarJugadasEnFila(int Fila, String Jugador) {
+   // Cantidad de jugadas para un determinado jugador en una determinada Fila. Metodo para contar la cantidad de "X o O en una misma fila. 
+    private int ContarJugadasEnFila(int Fila, String Jugador) { // Aqui el metodo pide la fila donde queremos buscar y la letra que queremos buscar, la cual coincide con el jugador.
         int Jugadas = 0;
         for (int i = 0; i < 3; i++) {
             if (Tablero[Fila][i] == Jugador){
@@ -394,7 +394,7 @@ public class FRAMETATETI extends javax.swing.JFrame {
             EstamosJugando = false;
         }
         
-        // ¿Que pasa si se completan todos los casilleros pero no hay ninguna jugada ganadora?
+        // Â¿Que pasa si se completan todos los casilleros pero no hay ninguna jugada ganadora?
         int CasillerosOcupados = 0;
         for (int f = 0; f < 3; f++) {
             for (int c = 0; c < 3; c++) {
@@ -661,7 +661,7 @@ public class FRAMETATETI extends javax.swing.JFrame {
 
         ExitButton.setBackground(new java.awt.Color(255, 0, 153));
         ExitButton.setFont(new java.awt.Font("Snap ITC", 0, 18)); // NOI18N
-        ExitButton.setText("Me Cansé");
+        ExitButton.setText("Me CansÃ©");
         ExitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ExitButtonActionPerformed(evt);
@@ -677,9 +677,9 @@ public class FRAMETATETI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+// Este es el primer lugar del tablero, o sea fila 0 columna 0, al hacer click sobre el boton se desencadena el metodo RealizarJugada.
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        boolean SePudoJugar = RealizarJugada(0, 0, ComienzoDelJuego);
+        boolean SePudoJugar = RealizarJugada(0, 0, ComienzoDelJuego); 
         if (SePudoJugar == true){
             DibujarBotones();
             ElegiTuJugador();
@@ -712,8 +712,8 @@ public class FRAMETATETI extends javax.swing.JFrame {
 
     private JFrame frame;
     private void ExitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitButtonActionPerformed
-        frame = new JFrame("Me Cansé!");
-        if (JOptionPane.showConfirmDialog(frame, " ¿Querés dejar el Juego?", " My Ta Te Ti", JOptionPane.YES_NO_OPTION)
+        frame = new JFrame("Me CansÃ©!");
+        if (JOptionPane.showConfirmDialog(frame, " Â¿QuerÃ©s dejar el Juego?", " My Ta Te Ti", JOptionPane.YES_NO_OPTION)
                 == JOptionPane.YES_NO_OPTION) {
             System.exit(0); // Finalizamos con la Partida o el Juego.
 
